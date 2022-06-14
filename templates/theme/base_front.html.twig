@@ -5,23 +5,23 @@
 
     {# Début : encodage caractère #}
     <meta charset="UTF-8">
-    {# Fin : encodage caractère #}
+    {# Fin   : encodage caractère #}
 
     {# Début : Minimum de responsive design #}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {# Fin : Minimum de responsive design #}
+    {# Fin   : Minimum de responsive design #}
 
     {# Début : Mise en place du titre de l'onglet dynamiquement #}
-    <title>{% block title %}{% endblock %}</title>
-    {# Fin : Mise en place du titre de l'onglet dynamiquement #}
+    <title>Médécine du monde - {% block title %}{% endblock %}</title>
+    {# Fin   : Mise en place du titre de l'onglet dynamiquement #}
 
     {# Début : Mise en place des balises meta pour le référencement naturel #}
     <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="robots" content="index, allow, all">
     <meta name="keywords"
         content="DWWM, Project, Frontend, Backend, Fullstack, PHP, PHP 8, MVC, Framework, Symfony, Symfony 6, The most powerful php framework {% block keywords %}{% endblock %}">
-    {# Fin : Mise en place des balises meta pour le référencement naturel #}
+    {# Fin   : Mise en place des balises meta pour le référencement naturel #}
 
     {# Début : Mise en place de la favicon #}
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
@@ -45,37 +45,38 @@
     {% endblock %}
     {# Fin : Mise en place du javascript avec webpack encore #}
 
+    {# Début : Mise en place du css spécifique à chaque page #}
+    {% block css %}{% endblock %}
+    {# Fin   : Mise en place du css spécifique à chaque page #}
+
+    {# Début : Mise en place du js spécifique à chaque page #}
+    {% block js %}{% endblock %}
+    {# Fin   : Mise en place du js spécifique à chaque page #}
+
 </head>
 
-<body>
+<body class="bg-light">
 
     {# Début : Mise en place de la navbar #}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    {# Fin : Mise en place de la navbar #}
+    {% include "layout/_navbar.html.twig" %}
+    {# Fin   : Mise en place de la navbar #}
+
+
+    {# Début : Mise en place de la section d'introduction #}
+    {% block intro_section %}{% endblock %}
+    {# Fin   : Mise en place de la section d'introduction #}
+
+
+    {# Début : Mise en place de la main #}
+    <main class="container-fluid">
+        {% block main %}{% endblock %}
+    </main>
+    {# Fin : Mise en place de la main #}
+
+
+    {# Début : Mise en place de la footer #}
+    {% include "layout/_footer.html.twig" %}
+    {# Fin : Mise en place de la footer #}
 
 </body>
 

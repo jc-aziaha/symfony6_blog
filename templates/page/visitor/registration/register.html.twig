@@ -1,0 +1,70 @@
+{% extends "theme/base_front.html.twig" %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block main %}
+    <h1 class="text-center display-5 mt-5">Inscription</h1>
+    <div class="heading-line"></div>
+
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-md-6 mx-auto p-4 bg-white shadow">
+                {{ form_start(registrationForm) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="">Prénom</label>
+                                {{ form_widget(registrationForm.firstName, {'attr': {'class': 'form-control'}}) }}             
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="">Nom</label>
+                                {{ form_widget(registrationForm.lastName, {'attr': {'class': 'form-control'}}) }}             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="">Email</label>
+                                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="">Mot de passe</label>
+                                {{ form_widget(registrationForm.password.first, {'attr': {'class': 'form-control'}}) }}             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="">Confirmation du mot de passe</label>
+                                {{ form_widget(registrationForm.password.second, {'attr': {'class': 'form-control'}}) }}             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                {{ form_widget(registrationForm.agreeTerms) }}             
+                                <label for="">Lire et accepter <a href="">les conditions générales d'utilisation</a></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <input type="submit" class="btn btn-primary" value="S'inscrire" />
+                            </div>
+                        </div>
+                    </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
