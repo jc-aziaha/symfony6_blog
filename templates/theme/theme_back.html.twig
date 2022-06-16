@@ -16,13 +16,6 @@
     <title>Médécine du monde - {% block title %}{% endblock %}</title>
     {# Fin   : Mise en place du titre de l'onglet dynamiquement #}
 
-    {# Début : Mise en place des balises meta pour le référencement naturel #}
-    <meta name="description" content="{% block description %}{% endblock %}">
-    <meta name="robots" content="index, allow, all">
-    <meta name="keywords"
-        content="DWWM, Project, Frontend, Backend, Fullstack, PHP, PHP 8, MVC, Framework, Symfony, Symfony 6, The most powerful php framework {% block keywords %}{% endblock %}">
-    {# Fin   : Mise en place des balises meta pour le référencement naturel #}
-
     {# Début : Mise en place de la favicon #}
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
@@ -58,7 +51,7 @@
 <body class="bg-light">
 
     {# Début : Mise en place de la navbar #}
-    {% include "layout/navbar/_navbar_front.html.twig" %}
+    {% include "layout/navbar/_navbar_back.html.twig" %}
     {# Fin   : Mise en place de la navbar #}
 
 
@@ -75,7 +68,7 @@
 
 
     {# Début : Mise en place de la footer #}
-    {% include "layout/footer/_footer_front.html.twig" %}
+    {% include "layout/footer/_footer_back.html.twig" %}
     {# Fin : Mise en place de la footer #}
 
 </body>
