@@ -28,6 +28,12 @@ class RegistrationController extends AbstractController
                             SendEmailService $sendEmailService
     ): Response
     {
+
+        if ($this->getUser()) 
+        {
+            return $this->redirectToRoute('visitor.welcome.index');
+        }
+        
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
