@@ -36,6 +36,7 @@ class UserFixtures extends Fixture
         $admin0->setEmail("medecine-du-monde@gmail.com");
         $admin0->setPassword($passwordHashed);
         $admin0->setRoles(array("ROLE_USER", "ROLE_ADMIN"));
+        $admin0->setIsVerified(true);
 
         return $admin0;
     }

@@ -16,12 +16,14 @@ class CategoryController extends AbstractController
 {
 
     #[Route('/administrateur/categorie/liste', name: 'admin.category.index')]
-    public function index(): Response
+    public function index(CategoryRepository $categoryRepository): Response
     {
-        return $this->render('page/admin/category/index.html.twig');
+        $categories = $categoryRepository->findAll();
+        return $this->render('page/admin/category/index.html.twig', compact('categories'));
     }
 
-    #[Route('/administrateur/categorie/insertion', name: 'admin.category.create')]
+
+    #[Route('/administrateur/categorie/creation', name: 'admin.category.create')]
     public function create(Request $request, CategoryRepository $categoryRepository): Response
     {
         $category = new Category();
@@ -43,4 +45,38 @@ class CategoryController extends AbstractController
         //     'form' => $form->createView()
         // ));
     }
+
+
+    #[Route('/administrateur/categorie/{id<\d+>}/modification', name: 'admin.category.edit')]
+    public function edit(Category $category, Request $request, CategoryRepository $categoryRepository)
+    {
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ( $form->isSubmitted() && $form->isValid()) 
+        {
+            $categoryRepository->add($category, true);
+            $this->addFlash("success", "Cette catégorie a été modifiée avec succès.");
+            return $this->redirectToRoute("admin.category.index");
+        }
+
+        return $this->renderForm("page/admin/category/edit.html.twig", compact('form', 'category'));
+    }
+
+
+    #[Route('/administrateur/categorie/{id<\d+>}/suppression', name: 'admin.category.delete')]
+    public function delete($id, CategoryRepository $categoryRepository, Request $request)
+    {
+        $category = $categoryRepository->findOneBy(array('id' => $id));
+
+        if ( $this->isCsrfTokenValid('delete_category_' . $category->getId(), $request->request->get('_token')) ) 
+        {
+            $categoryRepository->remove($category, true);
+            $this->addFlash('success', $category->getName() . ' a été supprimée.');
+        }
+        
+        return $this->redirectToRoute('admin.category.index');
+    }
+
+
 }

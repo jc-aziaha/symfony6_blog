@@ -16,4 +16,31 @@
         <a href="{{ path('admin.category.create') }}" class="btn btn-primary">Nouvelle catégorie</a>
     </div>
 
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover text-center">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <a href="{{ path('admin.category.edit', {'id': category.id}) }}" class="btn btn-sm btn-secondary p-1">Modifier</a>
+                            <form action="{{ path('admin.category.delete', {'id': category.id}) }}" method="post" class="d-inline p-1">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete_category_' ~   category.id) }}" />
+                                <input type="submit" class="btn btn-sm btn-danger" value="Supprimer" />
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}
