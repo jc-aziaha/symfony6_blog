@@ -2,6 +2,24 @@
 
 {% block title %}Admin / Liste des articles{% endblock %}
 
+{% block font_awesome %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+
+{% block datatables %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.12.1/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable( {
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.12.1/i18n/fr-FR.json'
+            }
+        } );
+    } );
+</script>
+{% endblock %}
+
 {% block adminContent %}
     <h1 class="text-center my-3 display-5">Liste des articles</h1>
 
@@ -17,7 +35,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover">
+        <table id="myTable" class="table table-bordered table-striped table-hover text-center">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -37,11 +55,21 @@
                         <td><img src="{{ vich_uploader_asset(post, 'imageFile')  | imagine_filter('admin_post_image_thumbnail')  }}" alt="{{ post.title }}"></td>
                         <td>{{ post.title }}</td>
                         <td>{{ post.category.name }}</td>
-                        <td>{{ post.isPublished ? 'Oui' : 'Non' }}</td>
-                        <td><a href="{{ path('admin.post.show', {'id': post.id}) }}" class="btn btn-sm btn-dark">Lire</a></td>
                         <td>
-                            <a href="" class="btn btn-sm btn-secondary">Modifier</a>
-                            <a href="" class="btn btn-sm btn-danger">Supprimer</a>
+                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                {{ post.isPublished ? 'Publié le ' ~ post.publishedAt|date("m/d/Y") : 'Pas encore' }}
+                                <form action="{{ path('admin.post.published', {'id': post.id}) }}" method="post">
+                                    <div class="form-check form-switch">
+                                        <input onclick="return confirm('Confirmer cette action ?')" onchange="this.form.submit()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck_{{ post.id }}" {{ post.isPublished ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="flexSwitchCheck_{{ post.id }}"></label>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                        <td><a href="{{ path('admin.post.show', {'id':post.id}) }}"><i class="fa-solid fa-eye"></i></a></td>
+                        <td>
+                            <a href="" class="m-2 text-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="" class="m-2 text-danger"><i class="fa-solid fa-trash-can"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
