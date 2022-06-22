@@ -31,7 +31,16 @@ class PostType extends AbstractType
                 // 'multiple' => true,
                 // 'expanded' => true,
             ])
-            ->add('imageFile', VichImageType::class)
+            ->add('imageFile', VichImageType::class, array(
+                'required' => false,
+                'allow_delete' => false,
+                'delete_label' => false,
+                'download_label' => false,
+                'download_uri' => false,
+                'image_uri' => false,
+                // 'imagine_pattern' => '...',
+                'asset_helper' => true,
+            ))
             ->add('content', TextareaType::class)
         ;
     }

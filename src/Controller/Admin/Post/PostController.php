@@ -55,7 +55,7 @@ class PostController extends AbstractController
     }
 
 
-    #[Route('/administrateur/article/{id<\d+>}/modifier', name: 'admin.post.show', methods: array('GET'))]
+    #[Route('/administrateur/article/{id<\d+>}/lire', name: 'admin.post.show', methods: array('GET'))]
     public function show(Post $post)
     {
         return $this->render("page/admin/post/show.html.twig", compact('post'));
@@ -83,5 +83,42 @@ class PostController extends AbstractController
         return $this->redirectToRoute("admin.post.index");
     }
 
+
+    #[Route('/administrateur/article/{id<\d+>}/modifier', name: 'admin.post.edit', methods: array('GET', 'POST'))]
+    public function edit(Post $post, CategoryRepository $categoryRepository, Request $request, PostRepository $postRepository)
+    {
+        if ( ! $categoryRepository->findAll() ) 
+        {
+            $this->addFlash('warning', "Vous devez créer au moins une catégorie avant de rédiger des articles.");
+            return $this->redirectToRoute("admin.category.index");
+        }
+
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+
+        if ( $form->isSubmitted() && $form->isValid())
+        {
+            $post->setAuthor($this->getUser());
+            $postRepository->add($post, true);
+            $this->addFlash("success", "L'article a été modifié et sauvegardé.");
+            return $this->redirectToRoute('admin.post.index');
+        }
+
+        return $this->renderForm("page/admin/post/edit.html.twig", compact('form', 'post')); 
+    }  
+
+
+    #[Route('/administrateur/article/{id<\d+>}/supprimer', name: 'admin.post.delete', methods: array('POST'))]
+    public function delete(Post $post, Request $request, PostRepository $postRepository)
+    {
+        if ( $this->isCsrfTokenValid('delete_post_' . $post->getId(), $request->request->get('_token')) ) 
+        {
+            $postRepository->remove($post, true);
+            $this->addFlash("success", "Votre article vient d'être supprimé!");
+        }
+
+        return $this->redirectToRoute('admin.post.index');
+    }
 
 }

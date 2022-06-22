@@ -96,7 +96,7 @@ class Post
     #[Assert\File(
         maxSize: '1024k',
         mimeTypes: ['image/png', 'image/jpeg', 'image/bmp', 'image/webp', 'image/svg+xml'],
-        mimeTypesMessage: "Seuls ces formats d'image sont valides : png, jpeg, bmp, webp, svg.",
+        mimeTypesMessage: "Seuls ces formats d'image sont valides : png, jpeg, bmp, webp.",
     )]
     #[Vich\UploadableField(mapping: 'post_image', fileNameProperty: 'image')]
     /**
