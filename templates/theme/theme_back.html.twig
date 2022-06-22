@@ -38,6 +38,10 @@
     {% endblock %}
     {# Fin : Mise en place du javascript avec webpack encore #}
 
+    {# Début : Mise en place de jQuery uniquement là où j'en ai besoin #}
+    {% block jquery %}{% endblock %}
+    {# Fin   : Mise en place de jQuery uniquement là où j'en ai besoin #}
+
     {# Début : Mise en place du editeur de texte #}
     {% block tinymce %}{% endblock %}
     {# Fin   : Mise en place du editeur de texte #}
@@ -49,6 +53,11 @@
     {# Début : Mise en place du CDN de datatables #}
     {% block datatables %}{% endblock %}
     {# Fin   : Mise en place du CDN de datatables #}
+
+
+    {# Début : Mise en place du CDN de select 2 #}
+    {% block select2 %}{% endblock %}
+    {# Fin   : Mise en place du CDN de select 2 #}
 
     {# Début : Mise en place du css spécifique à chaque page #}
     {% block css %}{% endblock %}

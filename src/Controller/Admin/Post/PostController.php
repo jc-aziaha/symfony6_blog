@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Post;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Repository\TagRepository;
 use App\Repository\PostRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class PostController extends AbstractController
 
 
     #[Route('/administrateur/article/creation', name: 'admin.post.create', methods: array('GET', 'POST'))]
-    public function create(Request $request, PostRepository $postRepository, CategoryRepository $categoryRepository): Response
+    public function create(Request $request, PostRepository $postRepository, CategoryRepository $categoryRepository, TagRepository $tagRepository): Response
     {
 
         if ( ! $categoryRepository->findAll() ) 
@@ -36,6 +37,8 @@ class PostController extends AbstractController
             $this->addFlash('warning', "Vous devez créer au moins une catégorie avant de rédiger des articles.");
             return $this->redirectToRoute("admin.category.index");
         }
+
+        $tags = $tagRepository->findAll();
 
         $post = new Post();
 
@@ -51,7 +54,7 @@ class PostController extends AbstractController
             return $this->redirectToRoute('admin.post.index');
         }
 
-        return $this->renderForm('page/admin/post/create.html.twig', compact('form'));
+        return $this->renderForm('page/admin/post/create.html.twig', compact('form', 'tags'));
     }
 
 
