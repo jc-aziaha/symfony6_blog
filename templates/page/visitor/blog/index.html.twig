@@ -11,7 +11,7 @@
                     <h2>Les catégories</h2>
                     <div class="list-group">
                         {% for category in categories %}
-                        <a href="#" class="list-group-item list-group-item-action">{{ category.name }}</a>
+                        <a href="{{ path('visitor.blog.post.filter_by_category', {'id': category.id, 'slug': category.slug}) }}" class="list-group-item list-group-item-action ">{{ category.name }}</a>
                         {% endfor %}
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                     <h2>Les tags</h2>
                     <div class="list-group">
                         {% for tag in tags %}
-                        <a href="#" class="list-group-item list-group-item-action">{{ tag.name }}</a>
+                        <a href="{{ path('visitor.blog.post.filter_by_tag', {'id': tag.id, 'slug': tag.slug}) }}" class="list-group-item list-group-item-action ">{{ tag.name }}</a>
                         {% endfor %}
                     </div>
                 </div>
@@ -35,12 +35,15 @@
                     <div class="col-md-6 mx-auto">
                         {% for post in posts %}
                             <article class="shadow border bg-white">
+                                {% if post.image %}
                                 <img class="w-100" src="{{ vich_uploader_asset(post, 'imageFile')  | imagine_filter('visitor_post_image_thumbnail')  }}" alt="{{ post.title }}">
+                                {% endif %}
                                 <div class="container py-3">
                                     <h3>{{ post.title }}</h3>
+                                    <p>Catégorie : {{ post.category.name }}</p>
                                     <p><small>Publié le {{ post.publishedAt|ago }}</small></p>
-                                    <p>{{ post.content|slice(0, 8)|striptags }}</p>
-                                    <a href="" class="btn btn-primary">Lire l'article</a>
+                                    {# <p>{{ post.content|slice(0, 8)|striptags }}</p> #}
+                                    <a href="{{ path('visitor.blog.post.show', {'id': post.id, 'slug': post.slug}) }}" class="btn btn-primary">Lire l'article</a>
                                 </div>
                             </article>
                             <hr class="my-4">

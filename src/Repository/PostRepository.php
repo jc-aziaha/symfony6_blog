@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Tag;
 use App\Entity\Post;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -39,20 +40,36 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Post[] Returns an array of Post objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Post[] Returns an array of Post objects
+    */
+   public function getFilterPosts($category_id): array
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.isPublished = :val')
+           ->andWhere('p.category = :category_id')
+           ->setParameter('val', true)
+           ->setParameter('category_id', $category_id)
+           ->orderBy('p.id', 'DESC')
+        //    ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+
+    public function filterPostsByTag(Tag $tag): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.isPublished = :val')
+            ->andWhere('p.tags = :tag')
+            ->setParameter('val', true)
+            ->setParameter('tag', $tag)
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Post
 //    {

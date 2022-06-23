@@ -2,6 +2,9 @@
 
 namespace App\Controller\Visitor\Blog;
 
+use App\Entity\Tag;
+use App\Entity\Post;
+use App\Entity\Category;
 use App\Repository\TagRepository;
 use App\Repository\PostRepository;
 use App\Repository\CategoryRepository;
@@ -24,4 +27,45 @@ class BlogController extends AbstractController
 
         return $this->render('page/visitor/blog/index.html.twig', compact('categories', 'tags', 'posts'));
     }
+
+
+    #[Route('/blog/{id<\d+>}/{slug}', name: 'visitor.blog.post.show')]
+    public function show(Post $post): Response
+    {
+        return $this->render("page/visitor/blog/show.html.twig", compact('post'));
+    }
+
+
+    #[Route('/blog/{id<\d+>}/{slug}/filtre-par-categorie', name: 'visitor.blog.post.filter_by_category')]
+    public function filterByCategory(Category $category, PostRepository $postRepository, TagRepository $tagRepository, CategoryRepository $categoryRepository)
+    {
+        $categories = $categoryRepository->findAll();
+        $tags       = $tagRepository->findAll();
+        $posts      = $postRepository->getFilterPosts($category->getId());
+
+        return $this->render('page/visitor/blog/index.html.twig', compact('categories', 'tags', 'posts'));
+
+    }
+
+
+    #[Route('/blog/{id<\d+>}/{slug}/filtre-par-tag', name: 'visitor.blog.post.filter_by_tag')]
+    public function filterByTag(Tag $tag, PostRepository $postRepository, TagRepository $tagRepository, CategoryRepository $categoryRepository)
+    {
+        $categories = $categoryRepository->findAll();
+        $tags       = $tagRepository->findAll();
+        $posts      = $postRepository->filterPostsByTag($tag);
+
+    //     $sql = "SELECT p.id, u.name, a.id AS address_id, a.street, a.city " .
+    //    "FROM users u INNER JOIN address a ON u.address_id = a.id";
+
+        dd($posts);
+
+        return $this->render('page/visitor/blog/index.html.twig', compact('categories', 'tags', 'posts'));
+
+    }
+
+
+    
+
+
 }

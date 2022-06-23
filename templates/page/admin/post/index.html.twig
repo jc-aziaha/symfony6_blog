@@ -53,7 +53,13 @@
                     <tr>
                         <td>{{ post.id }}</td>
                         {# <td><img src="{{ vich_uploader_asset(post, 'imageFile') }}" height="80" width="100" alt="{{ post.title }}"></td> #}
-                        <td><img src="{{ vich_uploader_asset(post, 'imageFile')  | imagine_filter('admin_post_image_thumbnail')  }}" alt="{{ post.title }}"></td>
+                        <td>
+                            {% if post.image %}
+                            <img src="{{ vich_uploader_asset(post, 'imageFile')  | imagine_filter('admin_post_image_thumbnail')  }}" alt="{{ post.title }}">
+                            {% else %}
+                            <img src="{{ asset('image/static/default-post-image.jpg') }}" alt="image par défaut" width="100" height="auto">
+                            {% endif %}
+                        </td>
                         <td>{{ post.title }}</td>
                         <td>{{ post.category.name }}</td>
                         <td>

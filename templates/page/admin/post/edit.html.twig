@@ -52,7 +52,11 @@
                 <div class="text-danger">{{ form_errors(form.imageFile) }}</div>
                 <div class="row text-center">
                     <div class="col-md-6">
+                        {% if post.image %}
                         <img src="{{ vich_uploader_asset(post, 'imageFile')  | imagine_filter('admin_post_image_thumbnail')  }}" alt="{{ post.title }}">
+                        {% else %}
+                        <img src="{{ asset('image/static/default-post-image.jpg') }}" alt="image par défaut" width="100" height="auto">
+                        {% endif %}
                     </div>
                     <div class="col-md-6">
                         {{ form_widget(form.imageFile, {'attr': {'class': 'form-control' }}) }}
