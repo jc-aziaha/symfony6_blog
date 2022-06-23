@@ -302,9 +302,14 @@ class Post
         return $this->tags;
     }
 
-    public function addTag(Tag $tag): self
+    public function addTag(?Tag $tag): self
     {
-        if (!$this->tags->contains($tag)) {
+        // if ( ! $this->tags->contains($tag)) {
+        //     $this->tags[] = $tag;
+        // }
+
+        if ( $tag != null ) 
+        {
             $this->tags[] = $tag;
         }
 

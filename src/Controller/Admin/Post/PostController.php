@@ -88,13 +88,21 @@ class PostController extends AbstractController
 
 
     #[Route('/administrateur/article/{id<\d+>}/modifier', name: 'admin.post.edit', methods: array('GET', 'POST'))]
-    public function edit(Post $post, CategoryRepository $categoryRepository, Request $request, PostRepository $postRepository)
+    public function edit(
+        Post $post, 
+        CategoryRepository $categoryRepository, 
+        Request $request, 
+        PostRepository $postRepository,
+        TagRepository $tagRepository
+    )
     {
         if ( ! $categoryRepository->findAll() ) 
         {
             $this->addFlash('warning', "Vous devez créer au moins une catégorie avant de rédiger des articles.");
             return $this->redirectToRoute("admin.category.index");
         }
+
+        $tags = $tagRepository->findAll();
 
         $form = $this->createForm(PostType::class, $post);
 
@@ -108,7 +116,7 @@ class PostController extends AbstractController
             return $this->redirectToRoute('admin.post.index');
         }
 
-        return $this->renderForm("page/admin/post/edit.html.twig", compact('form', 'post')); 
+        return $this->renderForm("page/admin/post/edit.html.twig", compact('form', 'post', 'tags')); 
     }  
 
 
